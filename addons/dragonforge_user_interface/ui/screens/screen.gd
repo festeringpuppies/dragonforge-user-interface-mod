@@ -80,6 +80,8 @@ func _disconnect_buttons(node: Node) -> void:
 		if subnode is BaseButton:
 			if _default_button_focus_fall_back == subnode:
 				_default_button_focus_fall_back = null
-			subnode.pressed.disconnect(_on_button_pressed)
-			subnode.focus_entered.disconnect(_on_button_focused.bind(subnode))
+			if subnode.pressed.is_connected(_on_button_pressed):
+				subnode.pressed.disconnect(_on_button_pressed)
+			if subnode.focus_entered.is_connected(_on_button_focused):
+				subnode.focus_entered.disconnect(_on_button_focused) #.bind(subnode))
 		_disconnect_buttons(subnode)
